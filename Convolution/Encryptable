@@ -1,0 +1,25 @@
+package encryption.ciphers;
+
+public interface Encryptable {
+
+	public final int START_CHAR = ' ';
+	public final int END_CHAR = 'z';
+	public final int RANGE =  END_CHAR - START_CHAR + 1;
+	
+	/**
+     * Encrypts the given input string.
+     *
+     * @param input the string to encrypt
+     * @return the encrypted string
+     */
+    public String encrypt (String input);
+    
+    /**
+     * Decrypts the given input string.
+     *
+     * @param input the string to decrypt
+     * @return the decrypted string
+     */
+    public String decrypt (String input);
+		
+}
