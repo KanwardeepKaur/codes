@@ -1,0 +1,75 @@
+import java.util.Scanner;
+
+public class ScannerUtils {
+
+	private static Scanner input = new Scanner(System.in);
+	
+	/**
+     * Displays the menu options, gets the user's choice and return the chosen as an integer.
+     *
+     * @param the menu options
+     * @return the user's choice
+     */
+ public static int getMenuItem(String... options) {
+	 int chosen;
+	 while(true) {
+		 for (int i = 0; i < options.length; i++) {
+				System.out.printf("\t%d - %s\n", i + 1, options[i]);
+	 }
+		 System.out.print("Select action: ");
+		 String inputS = input.nextLine();
+		 try {
+			 chosen = Integer.parseInt(inputS);
+			 if(chosen>=1 && chosen<=options.length) {
+				 break;
+			 }else {
+				 System.out.println("\nPlease select a number in the range");
+			 }
+		 }catch(NumberFormatException e) {
+			 System.out.println("\nPlease enter an integer");
+		 }
+	 }
+		 return chosen;
+ }
+		
+
+
+ /**
+     * Gets a string input from the user.
+     *
+     * @param the prompt message
+     * @return the user's input string
+     */
+ public static String getString(String prompt) {
+	System.out.print(prompt);
+	return input.nextLine();
+}
+
+/**
+ * Gets an integer input from the user within the specified range.
+ *
+ * @param prompt the prompt message
+ * @param min the minimum value allowed
+ * @param max the maximum value allowed
+ * @return the user's input integer
+ */
+ public static int getInt(String prompt, int min, int max) {
+    int value = 0;
+    boolean valid = false;
+    while (!valid) {
+            System.out.print(prompt);
+            String inputString = input.nextLine();
+            try {
+            value = Integer.parseInt(inputString);
+            valid = value >= min && value <= max;
+            if (!valid) {
+                System.out.println("\nPlease select a number in the range");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("\nPlease enter an integer");
+        }
+    }
+    return value;
+}
+
+}
