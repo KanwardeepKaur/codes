@@ -1,0 +1,165 @@
+package encryption;
+
+import java.util.Scanner;
+import java.util.ArrayList;
+import encryption.ciphers.*;
+
+/**
+ * The Lab5Test class provides the main entry point for the encryption tester program.
+ */
+public class Lab5Test {
+
+	private Scanner input;
+	
+	 public Lab5Test() {
+	        input = new Scanner(System.in); 
+	    }
+
+	 /**
+	     * Displays the menu options, gets the user's choice and return the chosen as an integer.
+	     *
+	     * @param the menu options
+	     * @return the user's choice
+	     */
+	 private int getMenuItem(String... options) {
+		 int chosen;
+		 while(true) {
+			 for (int i = 0; i < options.length; i++) {
+					System.out.printf("\t%d - %s\n", i + 1, options[i]);
+		 }
+			 System.out.print("Select action: ");
+			 String inputS = input.nextLine();
+			 try {
+				 chosen = Integer.parseInt(inputS);
+				 if(chosen>=1 && chosen<=options.length) {
+					 break;
+				 }else {
+					 System.out.println("\nPlease select a number in the range");
+				 }
+			 }catch(NumberFormatException e) {
+				 System.out.println("\nPlease enter an integer");
+			 }
+		 }
+			 return chosen;
+	 }
+			
+	
+
+	 /**
+	     * Gets a string input from the user.
+	     *
+	     * @param the prompt message
+	     * @return the user's input string
+	     */
+	private String getString(String prompt) {
+		System.out.print(prompt);
+		return input.nextLine();
+	}
+
+	/**
+     * Gets an integer input from the user within the specified range.
+     *
+     * @param prompt the prompt message
+     * @param min the minimum value allowed
+     * @param max the maximum value allowed
+     * @return the user's input integer
+     */
+	private int getInt(String prompt, int min, int max) {
+	    int value = 0;
+	    boolean valid = false;
+	    while (!valid) {
+	            System.out.print(prompt);
+	            String inputString = input.nextLine();
+	            try {
+	            value = Integer.parseInt(inputString);
+	            valid = value >= min && value <= max;
+	            if (!valid) {
+	                System.out.println("\nPlease select a number in the range");
+	            }
+	        } catch (NumberFormatException e) {
+	            System.out.println("\nPlease enter an integer");
+	        }
+	    }
+	    return value;
+	}
+
+
+	 /**
+     * Handles the encryption method selection process.
+     *
+     * @return the selected encryption method
+     */
+	private Encryptable getMethod() {
+		System.out.println("Encryption method");
+		int chosen = getMenuItem("Caesar", "Vigenere");
+		if (chosen == 1) {
+			int shift = getInt("Shift value: ",1, Encryptable.END_CHAR);
+			return new CaesarCipher(shift);
+		} else{
+			String password = getString("Password: ");
+			return new VigenereCipher(password);
+		}
+	}
+
+	/**
+	 * The main method serves as the entry point for the Encryption tester program.
+	 * It performs encryption and decryption operations
+	 * on text using different encryption methods.
+	 *
+	 * @param The command-line arguments passed to the program.
+	 */
+	public static void main(String[] args) {
+		System.out.println("Encryption tester");
+		ArrayList<String> encryptedText = new ArrayList<>();
+
+		Lab5Test lab5test = new Lab5Test();
+		int chosen;
+		do {
+			chosen = lab5test.getMenuItem("Encrypt text", "Decrypt text", "Display encrypted list", "Exit");
+			
+			switch (chosen) {
+			case 1:
+				String TextToEncrypt = lab5test.getString("Please enter text to be encrypted:"); // gets text to encrypt
+				Encryptable encryption = lab5test.getMethod(); // gets encryption method
+				String encrypted = encryption.encrypt(TextToEncrypt); // Encrypt text using encryption method
+				encryptedText.add(encrypted); // Add encrypted text to encryptedText
+				System.out.println("Encrypted value #" + encryptedText.size() + "is:" + encrypted); // Display encrypted text message
+				break;
+
+			case 2:
+				if (encryptedText.size() == 0) {
+					System.out.println("Nothing to decrypt");
+					break;
+				}
+				int option = lab5test.getInt("Message number you want to decrypt: ", 1, encryptedText.size());// Select text to decrypt from encryptedText
+																											
+				String TextToDecrypt = encryptedText.get(option - 1);
+				Encryptable decryption = lab5test.getMethod();// Get encryption method
+
+				//int j = option;
+				//for (int j = 0; j < option; j++) {
+					String decrypted = decryption.decrypt(TextToDecrypt);// Decrypt text using encryption method
+					System.out.println("Decrypted value #" + (option ) + " is:" + decrypted);// Display decrypted text message
+				//}
+				break;
+
+			case 3:
+				if (encryptedText.size() == 0) {
+					System.out.println("Nothing to display");
+				} else {
+					System.out.println("---------------------------");
+					for (int k = 0; k < encryptedText.size(); k++) {
+						System.out.println("#"+(k+1)+": "+encryptedText.get(k));// Display all the encrypted text in encryptedText
+						}
+					System.out.println("---------------------------");
+				}
+				break;
+
+			case 4:
+				System.out.println("Good bye");
+				break;
+			}
+			System.out.println();
+		} while (chosen != 4);
+	}
+}
