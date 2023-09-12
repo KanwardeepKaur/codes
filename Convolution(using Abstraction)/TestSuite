@@ -1,0 +1,10 @@
+package Testing;
+
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
+
+@Suite
+@SelectClasses({ CaesarCipherTest.class, VigenereCipherTest.class })
+public class AllTests {
+
+}
