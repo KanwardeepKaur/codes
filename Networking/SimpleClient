@@ -1,0 +1,32 @@
+import java.io.*;
+import java.net.*;
+
+public class SimpleClient {
+	public static void main(String[] args) {
+		try {
+			Socket clientSocket = new Socket("localhost", 1254);
+			System.out.println("Connected to server");
+			BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+
+			PrintWriter sWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+
+			String msg;
+			do {
+				
+				System.out.print("Enter a message to send (type 'finish' to exit the program): ");
+				msg = inputReader.readLine();
+				sWriter.println(msg);
+
+				BufferedReader serverReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				String serverMessage = serverReader.readLine();
+			} while (!msg.equalsIgnoreCase("finish"));
+			
+			inputReader.close();
+			sWriter.close();
+			clientSocket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
+
