@@ -1,0 +1,65 @@
+public class Lab6Test {
+	/**
+	 * The main method serves as the entry point for the Encryption tester program.
+	 * It performs encryption and decryption operations
+	 * on text using different encryption methods.
+	 *
+	 * @param The command-line arguments passed to the program.
+	 */
+	public static void main(String[] args) {
+		ScannerUtils scannerUtils = new ScannerUtils();
+		
+		System.out.println("Encryption tester");
+		ArrayList<String> encryptedText = new ArrayList<>();
+
+		int chosen;
+		do {
+			chosen = ScannerUtils.getMenuItem("Encrypt text", "Decrypt text", "Display encrypted list", "Exit");
+			
+			switch (chosen) {
+			case 1:
+				String TextToEncrypt = ScannerUtils.getString("Please enter text to be encrypted:"); // gets text to encrypt
+				EncryptionType encryption = EncryptionType.getMethod(); // gets encryption method
+				String encrypted = encryption.encrypt(TextToEncrypt); // Encrypt text using encryption method
+				encryptedText.add(encrypted); // Add encrypted text to encryptedText
+				System.out.println("Encrypted value #" + encryptedText.size() + "is:" + encrypted); // Display encrypted text message
+				break;
+
+			case 2:
+				if (encryptedText.size() == 0) {
+					System.out.println("Nothing to decrypt");
+					break;
+				}
+				int option = ScannerUtils.getInt("Message number you want to decrypt: ", 1, encryptedText.size());// Select text to decrypt from encryptedText
+																											
+				String TextToDecrypt = encryptedText.get(option - 1);
+				EncryptionType decryption = EncryptionType.getMethod();// Get encryption method
+
+				//int j = option;
+				//for (int j = 0; j < option; j++) {
+					String decrypted = decryption.decrypt(TextToDecrypt);// Decrypt text using encryption method
+					System.out.println("Decrypted value #" + (option ) + " is:" + decrypted);// Display decrypted text message
+				//}
+				break;
+
+			case 3:
+				if (encryptedText.size() == 0) {
+					System.out.println("Nothing to display");
+				} else {
+					System.out.println("---------------------------");
+					for (int k = 0; k < encryptedText.size(); k++) {
+						System.out.println("#"+(k+1)+": "+encryptedText.get(k));// Display all the encrypted text in encryptedText
+						}
+					System.out.println("---------------------------");
+				}
+				break;
+
+			case 4:
+				System.out.println("Good bye");
+				break;
+			}
+			System.out.println();
+		} while (chosen != 4);
+	}
+}
+
