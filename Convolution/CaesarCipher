@@ -1,0 +1,52 @@
+package encryption.ciphers;
+
+/**
+ * This class implements the Encryptable interface and 
+ * provides encryption and decryption using Caesar cipher.
+ */
+public class CaesarCipher implements Encryptable{
+
+	private int key;
+     
+     /**
+      * Constructs an object with the given shift value as the encryption key.
+      * @param the shift value for encryption
+      */
+     public CaesarCipher(int shift) {
+    	 this.key = shift;
+     }
+     
+     /**
+      * Encrypts the given input string using the Caesar cipher.
+      *
+      * @param the input string to encrypt
+      * @return the encrypted string
+      */
+     public String encrypt(String input) {
+    	StringBuilder encrypted = new StringBuilder() ;
+    	char[] character = input.toCharArray();
+    	for(int i = 0 ; i < character.length ; i++) {
+    		char c = character[i];
+    		int shifts = c + key ;
+    		encrypted.append((char)shifts);
+    	}
+    	return encrypted.toString();
+     }
+     
+     /**
+      * Decrypts the given input string using the Caesar cipher.
+      *
+      * @param the input string to decrypt
+      * @return the decrypted string
+      */
+     public String decrypt(String input) {
+    	 StringBuilder decrypted = new StringBuilder() ;
+     	char[] character = input.toCharArray();
+     	for(int i = 0 ; i < character.length ; i++) {
+     		char c = character[i];
+     		int shifts = c -  key ;
+     		decrypted.append((char)shifts);
+     	}
+     	return decrypted.toString();
+     }
+}
