@@ -1,0 +1,53 @@
+package Testing;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import encryption.ciphers.VigenereCipher;
+
+class VigenereCipherTest {
+
+	/**
+	 * test for encryption using VigenereCipher  
+	 */
+	@Test
+	public void testEncrypt1() {
+		VigenereCipher vigenereCipher = new VigenereCipher("test");
+		String input = "in a land far far away";
+		String encryptExpected = "bXsZtVYg]e^Zke^ZkeYpZc";
+		String encrypted = vigenereCipher.encrypt(input);
+		assertEquals(encrypted,encryptExpected,"Encrypted text should be: bXsZtVYg]e^Zke^ZkeYpZc");
+	}
+
+	@Test
+	public void testEncrypt2() {
+		VigenereCipher vigenereCipher = new VigenereCipher("practical");
+		String input = "Network Programming";
+		String encryptExpected = "C\\Z_h`SaAgfMZZ[UO_\\";
+		String encrypted = vigenereCipher.encrypt(input);
+		assertEquals(encrypted,encryptExpected,"Encrypted text should be: C\\Z_h`SaAgfMZZ[UO_\\");
+	}
+	
+	/**
+	 * test for decryption using VigenereCipher  
+	 */
+	@Test
+	public void testDecrypt1() {
+		VigenereCipher vigenereCipher = new VigenereCipher("test");
+		String encryptinput = "bXsZtVYg]e^Zke^ZkeYpZc";
+		String decryptExpected = "in a land far far away";
+		String decrypted = vigenereCipher.decrypt(encryptinput);
+		assertEquals(decrypted,decryptExpected,"Decrypted text should be: in a land far far away");
+	}
+	
+	@Test
+	public void testDecrypt2() {
+		VigenereCipher vigenereCipher = new VigenereCipher("practical");
+		String encryptinput = "C\\Z_h`SaAgfMZZ[UO_\\";
+		String decryptExpected = "Network Programming";
+		String decrypted = vigenereCipher.decrypt(encryptinput);
+		assertEquals(decrypted,decryptExpected,"Decrypted text should be: Network Programming");
+	}
+
+}
