@@ -1,0 +1,58 @@
+package encryption;
+
+import encryption.ciphers.CaesarCipher;
+import encryption.ciphers.VigenereCipher;
+
+public abstract class EncryptionType {
+
+	protected final int START_CHAR = ' ';
+	protected final int END_CHAR = 'z';
+	protected final int RANGE =  END_CHAR - START_CHAR + 1;
+	
+	/**
+     * Encrypts the given input string.
+     *
+     * @param input the string to encrypt
+     * @return the encrypted string
+     */
+    public abstract String encrypt (String input);
+    
+    /**
+     * Decrypts the given input string.
+     *
+     * @param input the string to decrypt
+     * @return the decrypted string
+     */
+    public abstract String decrypt (String input);
+		
+    protected char shiftChar(char character,int offset) {
+    	if(character>=START_CHAR && character<=END_CHAR) {
+    		int shift = character + offset;
+    		if (shift > END_CHAR) {
+    			shift = START_CHAR +(shift - END_CHAR -1);
+    		}else if(shift < START_CHAR) {
+    			shift = END_CHAR - (START_CHAR - shift -1);
+    		}
+    		return (char) shift;
+    	}
+		return character;
+    	
+    }
+    /**
+     * Handles the encryption method selection process.
+     *
+     * @return the selected encryption method
+     */
+	public static EncryptionType getMethod() {
+		System.out.println("Encryption method");
+		int chosen = ScannerUtils.getMenuItem("Caesar", "Vigenere");
+		if (chosen == 1) {
+			int shift = ScannerUtils.getInt("Shift value: ",Integer.MIN_VALUE, Integer.MAX_VALUE);
+			return new CaesarCipher(shift);
+		} else{
+			String password = ScannerUtils.getString("Password: ");
+			return new VigenereCipher(password);
+		}
+	}
+
+}
