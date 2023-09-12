@@ -1,0 +1,47 @@
+package Testing;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import encryption.ciphers.CaesarCipher;
+
+class CaesarCipherTest {
+	
+	@Test
+	public void testEncrypt1() {
+		CaesarCipher caesarCipher = new CaesarCipher(5);
+		String input = "Once upon a time...";
+		String encryptExpected = "Tshj%zuts%f%ynrj333";
+		String encrypted = caesarCipher.encrypt(input);
+		assertEquals(encrypted,encryptExpected,"Encrypted text should be: Tshj%zuts%f%ynrj333"); 
+	}
+	
+	@Test
+	public void testEncrypt2() {
+		CaesarCipher caesarCipher = new CaesarCipher(-5);
+		String input = "ZMENG";
+		String encryptExpected = "UH@IB";
+		String encrypted = caesarCipher.encrypt(input);
+		assertEquals(encrypted,encryptExpected,"Encrypted text should be: UH@IB"); 
+	}
+
+	@Test
+	public void testDecrypt1() {
+		CaesarCipher caesarCipher = new CaesarCipher(5);
+		String encryptinput = "Tshj%zuts%f%ynrj333";
+		String decryptExpected = "Once upon a time...";
+		String decrypted = caesarCipher.decrypt(encryptinput);
+		assertEquals(decrypted,decryptExpected,"Decrypted text should be: Once upon a time...");
+	}
+	
+	@Test
+	public void testDecrypt2() {
+		CaesarCipher caesarCipher = new CaesarCipher(-5);
+		String encryptinput = "UH@IB";
+		String decryptExpected = "ZMENG";
+		String decrypted = caesarCipher.decrypt(encryptinput);
+		assertEquals(decrypted,decryptExpected,"Decrypted text should be: ZMENG");
+	}
+
+}
