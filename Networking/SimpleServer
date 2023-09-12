@@ -1,0 +1,40 @@
+import java.io.*;
+import java.net.*;
+
+public class SimpleServer {
+	public static void main(String[] args) {
+		try {
+			
+			ServerSocket serverSocket = new ServerSocket(1254);
+			System.out.println("Server is listening on port 1254");
+
+			
+			while (true) {
+				
+				Socket clientSocket = serverSocket.accept();
+				System.out.println("Connection established with " + clientSocket.getInetAddress().getHostAddress());
+
+				BufferedReader cReader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+				PrintWriter cWriter = new PrintWriter(clientSocket.getOutputStream(), true);
+
+				String message;
+				do {
+					message = cReader.readLine();
+					System.out.println("Received: " + message);
+
+					String sendMessage = message;
+
+					cWriter.println(sendMessage);
+
+				} while (!message.equalsIgnoreCase("finish"));
+
+				
+				cReader.close();
+				cWriter.close();
+				clientSocket.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
